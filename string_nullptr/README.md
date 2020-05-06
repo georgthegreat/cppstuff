@@ -20,6 +20,8 @@ Existing implementations (i. e. [libc++](https://github.com/llvm/llvm-project/bl
 * [hdf5](https://bitbucket.hdfgroup.org/projects/HDFFV/repos/hdf5/browse/c%2B%2B/src/H5PropList.cpp#558),
 * [llvm](https://github.com/llvm/llvm-project/blob/ca09dab303f4fd72343be10dbd362b60a5f91c45/llvm/lib/Target/NVPTX/NVPTXAsmPrinter.cpp#L1319) project itself, though the code is marked as unreachable.
 
+On a large private monorepo applying proposed changes and running an automatic CI-check helped to find 7 problematic projects (the number includes projects listed above), one of which would actually segfault if the code was reached (and the code was really easy reachable).
+
 This proposal attempts to improve the diagnostics by explicitly deleting the problematic constructors, thus moving these assertions to compile time.
 
 ## Impact on the Standard
