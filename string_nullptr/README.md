@@ -37,25 +37,25 @@ The wording is relative to [N4861](https://wg21.link/n4861).
 ```cpp
 [...]
 namespace std {
-  	template<class charT, class traits = char_traits<charT>,
-           class Allocator = allocator<charT>>
-  	class basic_string {
-  	public:
-		// types
-		[...]
-		// [string.cons], construct/copy/destroy
-		[...]
-		constexpr basic_string(const charT* s, size_type n, const Allocator& a = Allocator());
-    	constexpr basic_string(const charT* s, const Allocator& a = Allocator());
- 	+  	constexpr basic_string(nullptr_t) = delete;
-		[...]
-		template<class T>
-      	constexpr basic_string& operator=(const T& t);
-		constexpr basic_string& operator=(const charT* s);
-	+	constexpr basic_string& operator=(nullptr_t) = delete;
-		[...]
-	};
-	[...]
+    template<class charT, class traits = char_traits<charT>,
+        class Allocator = allocator<charT>>
+    class basic_string {
+    public:
+        // types
+        [...]
+        // [string.cons], construct/copy/destroy
+        [...]
+        constexpr basic_string(const charT* s, size_type n, const Allocator& a = Allocator());
+        constexpr basic_string(const charT* s, const Allocator& a = Allocator());
+    +   constexpr basic_string(nullptr_t) = delete;
+        [...]
+        template<class T>
+          constexpr basic_string& operator=(const T& t);
+        constexpr basic_string& operator=(const charT* s);
+    +   constexpr basic_string& operator=(nullptr_t) = delete;
+        [...]
+    };
+    [...]
 }
 ```
 
@@ -67,10 +67,10 @@ template<class charT, class traits = char_traits<charT>>
 class basic_string_view {
 public:
 // types
-	[...]
-	constexpr basic_string_view(const charT* str);
-+	constexpr basic_string_view(nullptr_t) = delete;
-	[...]
+    [...]
+    constexpr basic_string_view(const charT* str);
++   constexpr basic_string_view(nullptr_t) = delete;
+    [...]
 };
 ```
 
