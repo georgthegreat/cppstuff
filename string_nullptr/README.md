@@ -1,8 +1,8 @@
-_Document number: D????R0_
+_Document number: P2166R0_
 
 _Project: Programming Language C++_
 
-_Audience: LWG_
+_Audience: LEWG-I, LEWG, LWG_
 
 _Yuriy Chernyshov \<georgthegreat@gmail.com\>, \<thegeorg@yandex-team.ru\>_
 
@@ -50,7 +50,7 @@ namespace std {
     +   constexpr basic_string(nullptr_t) = delete;
         [...]
         template<class T>
-          constexpr basic_string& operator=(const T& t);
+        constexpr basic_string& operator=(const T& t);
         constexpr basic_string& operator=(const charT* s);
     +   constexpr basic_string& operator=(nullptr_t) = delete;
         [...]
