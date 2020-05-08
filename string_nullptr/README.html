@@ -1,0 +1,87 @@
+<html>
+    <body>
+        <p><em>Document number: P2166R0</em></p>
+        <p><em>Project: Programming Language C++</em></p>
+        <p><em>Audience: LEWG-I, LEWG, LWG</em></p>
+        <p><em>Yuriy Chernyshov &lt;georgthegreat@gmail.com&gt;, &lt;thegeorg@yandex-team.ru&gt;</em></p>
+        <p><em>Date: 2020-05-06</em></p>
+        <h1>A Proposal to Prohibit std::basic_string and std::basic_string_view construction from nullptr.</h1>
+        <h2>Introduction and Motivation</h2>
+        <p>According to the C++ Standard, the behavior of 
+            <code>std::basic_string::basic_string(const CharT* s)</code> constructor 
+            <em>is undefined if 
+                <code>[s, s+count)</code> is not a valid range (even though the constructor may not access any of the elements of this range)
+            </em>. Same applies to 
+            <code>std::basic_string_view::basic_string_view(const CharT* s)</code> constructor.
+        </p>
+        <p>Existing implementations (i. e. <a href="https://github.com/llvm/llvm-project/blob/1b678ee8a6cc7510801b7c5be2bcde08ff8bbd6e/libcxx/include/string#L822">libc++</a>) might add a runtime assertion to forbid such behavior. Certain OpenSource projects would trigger this assertion. The list includes, but not limited to:</p>
+        <ul>
+            <li><a href="https://github.com/pocoproject/poco/blob/3fc3e5f5b8462f7666952b43381383a79b8b5d92/Data/ODBC/include/Poco/Data/ODBC/Extractor.h#L465">poco</a>,</li>
+            <li><a href="https://bitbucket.hdfgroup.org/projects/HDFFV/repos/hdf5/browse/c%2B%2B/src/H5PropList.cpp#558">hdf5</a>,</li>
+            <li><a href="https://github.com/llvm/llvm-project/blob/ca09dab303f4fd72343be10dbd362b60a5f91c45/llvm/lib/Target/NVPTX/NVPTXAsmPrinter.cpp#L1319">llvm</a> project itself, though the code is marked as unreachable.</li>
+        </ul>
+        <p>On a large private monorepo applying proposed changes and running an automatic CI-check helped to find 7 problematic projects (the number includes projects listed above), one of which would actually segfault if the code was reached (and the code was really easy reachable).</p>
+        <p>This proposal attempts to improve the diagnostics by explicitly deleting the problematic constructors, thus moving these assertions to compile time.</p>
+        <h2>Impact on the Standard</h2>
+        <p>This proposal changes <code>&lt;string&gt;</code> and <code>&lt;string_view&gt;</code> headers only and does not affect the language core.</p>
+        <h2>Proposed Wording</h2>
+        <p>The wording is relative to <a href="https://wg21.link/n4861">N4861</a>.</p>
+        <p>1. Modify 21.3.2 <a href="https://wg21.link/basic.string">[basic.string]</a> as follows:</p>
+        <div class="sourceCode">
+            <pre class="sourceCode cpp"><code class="sourceCode cpp">[...]
+namespace std {
+    template<class charT, class traits = char_traits<charT>,
+        class Allocator = allocator<charT>>
+    class basic_string {
+    public:
+        // types
+        [...]
+        // [string.cons], construct/copy/destroy
+        [...]
+        constexpr basic_string(const charT* s, size_type n, const Allocator& a = Allocator());
+        constexpr basic_string(const charT* s, const Allocator& a = Allocator());
+        <span style="background-color: #A0FFA0">constexpr basic_string(nullptr_t) = delete;</span>
+        [...]
+        template<class T>
+        constexpr basic_string& operator=(const T& t);
+        constexpr basic_string& operator=(const charT* s);
+        <span style="background-color: #A0FFA0">constexpr basic_string& operator=(nullptr_t) = delete;</span>
+        [...]
+    };
+    [...]
+}</code></pre>
+        </div>
+        <p>2. Modify 21.4.1 <a href="https://wg21.link/string.view.synop">[string.view.synop]</a> as indicated:</p>
+        <div class="sourceCode">
+            <pre class="sourceCode cpp"><code class="sourceCode cpp">[...]
+template<class charT, class traits = char_traits<charT>>
+class basic_string_view {
+public:
+// types
+    [...]
+    constexpr basic_string_view(const charT* str);
+    <span style="background-color: #A0FFA0">constexpr basic_string_view(nullptr_t) = delete;</span>
+    [...]
+};</code></pre>
+        </div>
+        <h2>Further Discourse</h2>
+        <p>These changes would not allow to remove runtime check, the following code is still will compile and trigger it:</p>
+        <div class="sourceCode">
+            <pre class="sourceCode cpp"><code class="sourceCode cpp">const char *p = nullptr; // or more likely, p = functionThatCanReturnNull()
+string s(p, 3);</code></pre>
+        </div>
+        <p>The another part of the proposal suggests to remove sized nullptr constructors too, i. e. add the following statements where necessary:</p>
+        <div class="sourceCode">
+            <pre class="sourceCode cpp"><code class="sourceCode cpp">basic_string(nullptr_t, size_t) == delete;
+constexpr basic_string_view(nullptr_t, size_t) == delete;</code></pre>
+        </div>
+        <p>These changes will break the legal, yet not legitimate case of constructing 
+            <code>std::string</code> using 
+            <code>basic_string(nullptr, 0);</code> and 
+            <code>std::string_view</code> using 
+            <code>basic_string_view(nullptr, 0);</code>.
+        </p>
+        <h2>Acknowledgements</h2>
+        <p>The author would like to thank Antony Poloukhin, Marshall Clow and Eric Fiselier for a thorough review and suggestions.</p>
+    </body>
+</html>
