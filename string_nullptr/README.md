@@ -17,7 +17,7 @@ According to the C++ Standard, the behavior of `std::basic_string::basic_string(
 Existing implementations (i. e. [libc++](https://github.com/llvm/llvm-project/blob/1b678ee8a6cc7510801b7c5be2bcde08ff8bbd6e/libcxx/include/string#L822)) might add a runtime assertion to forbid such behavior. Certain OpenSource projects would trigger this assertion. The list includes, but not limited to:
 
 * [poco](https://github.com/pocoproject/poco/blob/3fc3e5f5b8462f7666952b43381383a79b8b5d92/Data/ODBC/include/Poco/Data/ODBC/Extractor.h#L465),
-* [hdf5](https://bitbucket.hdfgroup.org/projects/HDFFV/repos/hdf5/browse/c%2B%2B/src/H5PropList.cpp#558),
+* [hdf5](https://bitbucket.hdfgroup.org/projects/HDFFV/repos/hdf5/browse/c++/src/H5PropList.cpp#558),
 * [llvm](https://github.com/llvm/llvm-project/blob/ca09dab303f4fd72343be10dbd362b60a5f91c45/llvm/lib/Target/NVPTX/NVPTXAsmPrinter.cpp#L1319) project itself, though the code is marked as unreachable.
 
 On a large private monorepo applying proposed changes and running an automatic CI-check helped to find 7 problematic projects (the number includes projects listed above), one of which would actually segfault if the code was reached (and the code was really easy reachable).
@@ -32,7 +32,7 @@ This proposal changes `<string>` and `<string_view>` headers only and does not a
 
 The wording is relative to [N4861](https://wg21.link/n4861).
 
-1. Modify 21.3.2 [[basic.string]](https://wg21.link/basic.string) as follows:
+1. Modify [21.3.2 [basic.string]](https://wg21.link/basic.string) as follows:
 
 ```cpp
 [...]
@@ -59,7 +59,7 @@ namespace std {
 }
 ```
 
-2. Modify 21.4.1 [[string.view.synop]](https://wg21.link/string.view.synop) as indicated:
+2. Modify [21.4.1 [string.view.synop]](https://wg21.link/string.view.synop) as indicated:
 
 ```cpp
 [...]
