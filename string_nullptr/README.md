@@ -12,7 +12,7 @@ _Date: 2020-05-06_
 
 ## Introduction and Motivation
 
-According to the C++ Standard, the behavior of `std::basic_string::basic_string(const CharT* s)` constructor _is undefined if `[s, s+count)` is not a valid range (even though the constructor may not access any of the elements of this range)_. Same applies to `std::basic_string_view::basic_string_view(const CharT* s)` constructor.
+According to the C++ Standard, the behavior of `std::basic_string::basic_string(const CharT* s)` constructor _is undefined if [s, s + Traits::length(s)) is not a valid range (for example, if s is a null pointer)_ (citation is taken [from cppreference.com](https://en.cppreference.com/w/cpp/string/basic_string/basic_string), the standard have slighty different wording in [21.3.2.2 [string.cons]](https://wg21.link/string.cons#12)). Same applies to `std::basic_string_view::basic_string_view(const CharT* s)` constructor.
 
 Existing implementations (i. e. [libc++](https://github.com/llvm/llvm-project/blob/1b678ee8a6cc7510801b7c5be2bcde08ff8bbd6e/libcxx/include/string#L822)) might add a runtime assertion to forbid such behavior. Certain OpenSource projects would trigger this assertion. The list includes, but not limited to:
 
@@ -83,7 +83,7 @@ const char *p = nullptr; // or more likely, p = functionThatCanReturnNull()
 string s(p, 3);
 ```
 
-The another part of the proposal suggests to remove sized nullptr constructors too, i. e. add the following statements where necessary:
+The another part of the proposal suggests to remove sized counterpart of nullptr constructors,  as _the behavior is undefined if [s, s + count) is not a valid range_ (citation source same). That is, the following statements are suggested where appropriate:
 
 ```cpp
 basic_string(nullptr_t, size_t) == delete;
