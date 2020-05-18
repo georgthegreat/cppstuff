@@ -83,14 +83,14 @@ const char *p = nullptr; // or more likely, p = functionThatCanReturnNull()
 string s(p, 3);
 ```
 
-The another part of the proposal suggests to remove sized counterpart of nullptr constructors,  as _the behavior is undefined if [s, s + count) is not a valid range_ (citation source same). That is, the following statements are suggested where appropriate:
+As a development of the above proposal it seems logical to remove sized counterpart of nullptr constructors,  as _the behavior is undefined if [s, s + count) is not a valid range_ (citation source same). That is, the following statements are suggested where appropriate:
 
 ```cpp
 basic_string(nullptr_t, size_t) == delete;
 constexpr basic_string_view(nullptr_t, size_t) == delete;
 ```
 
-These changes will break the legal, yet not legitimate case of constructing `std::string` using `basic_string(nullptr, 0);` and `std::string_view` using `basic_string_view(nullptr, 0);`.
+These changes will break the legal, yet not legitimate case of constructing `std::string` using `basic_string(nullptr, 0);` and `std::string_view` using `basic_string_view(nullptr, 0);` and thus they were not included into the main text of the proposal.
 
 ## Acknowledgements
 
