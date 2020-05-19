@@ -76,7 +76,7 @@ public:
 
 ## Further Discourse
 
-These changes would not allow to remove runtime check, the following code is still will compile and trigger it:
+These changes would not allow to remove runtime check, the following code will remain compilable and will trigger the assertion:
 
 ```cpp
 const char *p = nullptr; // or more likely, p = functionThatCanReturnNull()
