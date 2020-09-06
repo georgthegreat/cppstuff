@@ -1,4 +1,4 @@
-_Document number: P2166R0_
+_Document number: P2166R1_
 
 _Project: Programming Language C++_
 
@@ -6,7 +6,7 @@ _Audience: LEWG-I, LEWG, LWG_
 
 _Yuriy Chernyshov \<georgthegreat@gmail.com\>, \<thegeorg@yandex-team.ru\>_
 
-_Date: 2020-05-06_
+_Date: 2020-09-06_
 
 # A Proposal to Prohibit std::basic_string and std::basic_string_view construction from nullptr.
 
