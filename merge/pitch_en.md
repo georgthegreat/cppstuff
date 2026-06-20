@@ -1,7 +1,7 @@
 ### A Million-Commit Story: How We Handle History Queries in Arc VCS
 
 (1) Intro
-In Yandex we do love monorepos:
+At Yandex we do love monorepos:
 according to our metrics, monorepos allow users to write code faster and ease code quality maintenance,
 thus shortening time to market.
 
