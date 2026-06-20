@@ -29,7 +29,7 @@ I will cover three aspects of working with such a long history:
 - How we built a blame index to speed up `arc praise` result
 
 (4) Why this matters
-You will learn how the tools you use every day work — and how quickly they stop working at scale.
+You will learn how `git` you use every day works — and how quickly its approaches stop working at scale.
 We will cover classic algorithm complexities and how to speed them up.
 I will show one of the oldest lines in Yandex codebase, so everyone would know
 how ideal code looks when it survives 20 years without changes.
