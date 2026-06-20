@@ -15,21 +15,21 @@ and we have recently landed r20'000'000 into our trunk branch.
 (2) The problem
 The history of Arc VCS development is a history of struggle against algorithmic complexity.
 None of the classic git approaches works at our scale.
-As soon as we implemented a well-known algorithm, it stopped working due to the exponential growth of the repository.
+As soon as we implement a well-known algorithm, it stops working due to the exponential growth of the repository.
 We had to:
-- study how other VCS handle history queries,
+- examine how other VCS handle history queries,
 - scale git approaches to suit our workloads,
-- avoid unnecessary computations and save complexity where possible.
+- avoid unnecessary computations and reduce complexity where possible.
 
 (3) Our approach
-I will cover three aspects of working with such a long history:
-- How we display commit log and why classic BFS does not work at our scale —
-  and how we first sped it up, then abandoned it entirely
+I will cover three aspects of working with such a long commit history:
+- How we display commit log and why classic BFS does not work at our scale,
+  how we first sped it up, and then abandoned it entirely
 - How we optimize file log by using server side index (and why it is log_index_v3)
 - How we built a blame index to speed up `arc praise` results
 
 (4) Why this matters
 You will learn how `git` that you use every day works — and how quickly its approaches stop working at scale.
-We will cover classic algorithm complexities and how to speed them up.
-I will show one of the oldest lines in Yandex codebase, so everyone will know
-how ideal code looks when it survives 20 years without changes.
+I will cover classic algorithm complexities and how to speed them up.
+I will show you one of the oldest lines in Yandex codebase, which survived 20 years without changes
+so that everyone will know what ideal code looks like.
