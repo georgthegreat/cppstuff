@@ -26,10 +26,10 @@ I will cover three aspects of working with such a long history:
 - How we display commit log and why classic BFS does not work at our scale —
   and how we first sped it up, then abandoned it entirely
 - How we optimize file log by using server side index (and why it is log_index_v3)
-- How we built a blame index to speed up `arc praise` result
+- How we built a blame index to speed up `arc praise` results
 
 (4) Why this matters
-You will learn how `git` you use every day works — and how quickly its approaches stop working at scale.
+You will learn how `git` that you use every day works — and how quickly its approaches stop working at scale.
 We will cover classic algorithm complexities and how to speed them up.
 I will show one of the oldest lines in Yandex codebase, so everyone would know
 how ideal code looks when it survives 20 years without changes.
