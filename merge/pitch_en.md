@@ -2,13 +2,13 @@
 
 (1) Intro
 In Yandex we do love monorepos:
-according to our metrics, monorepos allow users to write code faster and ease its quality maintenance,
+according to our metrics, monorepos allow users to write code faster and ease code quality maintenance,
 thus shortening time to market.
 
 In order to make everything work smoothly, we have implemented our own git-like VCS
 and we actively push the users towards trunk-based development.
 
-Our efforts allow people to write code A LOT.
+This works — and people write a lot of code.
 Today we merge up to 15000 commits into trunk every workday,
 and we have recently landed r20'000'000 into our trunk branch.
 
@@ -31,5 +31,5 @@ I will cover three aspects of working with such a long history:
 (4) Why this matters
 You will learn how `git` that you use every day works — and how quickly its approaches stop working at scale.
 We will cover classic algorithm complexities and how to speed them up.
-I will show one of the oldest lines in Yandex codebase, so everyone would know
+I will show one of the oldest lines in Yandex codebase, so everyone will know
 how ideal code looks when it survives 20 years without changes.
