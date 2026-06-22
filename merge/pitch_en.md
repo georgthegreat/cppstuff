@@ -15,7 +15,7 @@ and we have recently landed r20'000'000 into our trunk branch.
 (2) The problem
 The history of Arc VCS development is a history of struggle against algorithmic complexity.
 None of the classic git approaches works at our scale.
-As soon as we implement a well-known algorithm, it stops working due to the exponential growth of the repository.
+As soon as we implement a well-known algorithm, it stops working due to the repository growth.
 We had to:
 - examine how other VCS handle history queries,
 - scale git approaches to suit our workloads,
